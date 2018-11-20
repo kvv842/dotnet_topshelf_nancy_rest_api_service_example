@@ -1,0 +1,5 @@
+CREATE TABLE [dbo].[Persons](
+	[Id] [uniqueidentifier] NOT NULL,
+	[Name] [nvarchar](50) NOT NULL,
+	[BirthDay] [datetime2](7) NOT NULL
+) ON [PRIMARY]
