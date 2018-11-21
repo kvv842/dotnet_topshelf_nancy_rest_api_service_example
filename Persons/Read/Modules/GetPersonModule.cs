@@ -2,6 +2,7 @@
 using Persons.Abstractions.Read.Dto;
 using Persons.Abstractions.Read.Handlers;
 using Persons.Abstractions.Read.Query;
+using Persons.Exceptions;
 using System;
 
 namespace Persons.Read.Modules
@@ -12,13 +13,17 @@ namespace Persons.Read.Modules
         {
             Get(Consts.BASE_PREFIX_V1 + "/{person_id}", x => {
 
-                var id = Guid.Parse(x.person_id);
+                if (Guid.TryParse(x.person_id, out Guid id))
+                {
 
-                var query = new GetPersonByIdQuery { Id = id };
+                    var query = new GetPersonByIdQuery { Id = id };
 
-                var result = queryHandler.Get(query);
+                    var result = queryHandler.Get(query);
 
-                return Map(result);
+                    return Map(result);
+                }
+                else
+                    throw new BadRequestException($"Bad param person_id");
             });
         }
 
